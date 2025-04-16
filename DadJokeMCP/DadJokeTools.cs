@@ -14,17 +14,24 @@ public sealed class DadJokeTools
         this.DadJokeService = DadJokeService;
     }
 
-    [McpServerTool, Description("Get a list of DadJokes.")]
-    public async Task<string> GetDadJokes()
+    [McpServerTool, Description("Get a random Dad Jokes.")]
+    public async Task<string> GetDadJoke()
     {
-        var DadJokes = await DadJokeService.GetDadJokes();
-        return JsonSerializer.Serialize(DadJokes);
+        var dadJoke = await DadJokeService.GetDadJoke();
+        return JsonSerializer.Serialize(dadJoke);
     }
 
-    [McpServerTool, Description("Get a DadJoke by name.")]
-    public async Task<string> GetDadJoke([Description("The name of the DadJoke to get details for")] string name)
+    [McpServerTool, Description("Get a list of Dad Joke by category.")]
+    public async Task<string> GetDadJokesByCategory([Description("The name of the Dad Joke Category to get a list of jobs for")] string name)
     {
-        var DadJoke = await DadJokeService.GetDadJoke(name);
-        return JsonSerializer.Serialize(DadJoke);
+        var dadJokes = await DadJokeService.GetDadJokesByCategory(name);
+        return JsonSerializer.Serialize(dadJokes);
+    }
+
+    [McpServerTool, Description("Get a list of Dad Joke categories.")]
+    public async Task<string> GetDadJokeCategories()
+    {
+        var categories = await DadJokeService.GetDadJokeCategories();
+        return JsonSerializer.Serialize(categories);
     }
 }

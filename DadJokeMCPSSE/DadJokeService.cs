@@ -1,53 +1,46 @@
-using System.Text.Json.Serialization;
+using DadJokeMCP;
+using System.Text.Json;
 
 namespace DadJokeMCPSSE;
 
 public class DadJokeService
 {
-    private readonly HttpClient httpClient;
-    public DadJokeService(IHttpClientFactory httpClientFactory)
-    {
-        httpClient = httpClientFactory.CreateClient();
-    }
+    private static readonly string sourceFileName = "Data/Jokes.json";
+    private static JokeList JokeData = new();
+    private static List<string> JokeCategories = [];
 
-    List<DadJoke> DadJokeList = new();
-    public async Task<List<DadJoke>> GetDadJokes()
+    public DadJokeService()
     {
-        if (DadJokeList?.Count > 0)
-            return DadJokeList;
-
-        // Online
-        var response = await httpClient.GetAsync("https://www.montemagno.com/DadJokes.json");
-        if (response.IsSuccessStatusCode)
+        // load up the jokes into memory
+        using (var r = new StreamReader(sourceFileName))
         {
-            DadJokeList = await response.Content.ReadFromJsonAsync(DadJokeContext.Default.ListDadJoke) ?? [];
+            var json = r.ReadToEnd();
+            JokeData = JsonSerializer.Deserialize<JokeList>(json) ?? new JokeList();
         }
 
-        DadJokeList ??= [];
-
-        return DadJokeList;
+        // select distinct categories from JokeData
+        JokeCategories = JokeData.Jokes.Select(joke => joke.JokeCategoryTxt).Distinct().Order().ToList();
     }
 
-    public async Task<DadJoke?> GetDadJoke(string name)
+    public static async Task<DadJoke> GetDadJoke()
     {
-        var DadJokes = await GetDadJokes();
-        return DadJokes.FirstOrDefault(m => m.Name?.Equals(name, StringComparison.OrdinalIgnoreCase) == true);
+        _ = await Task.FromResult(true);
+        var joke = JokeData.Jokes[Random.Shared.Next(0, JokeData.Jokes.Count)];
+        return joke ?? new DadJoke("No jokes here!");
     }
-}
 
-public partial class DadJoke
-{
-    public string? Name { get; set; }
-    public string? Location { get; set; }
-    public string? Details { get; set; }
-    public string? Image { get; set; }
-    public int Population { get; set; }
-    public double Latitude { get; set; }
-    public double Longitude { get; set; }
-}
+    public static async Task<List<DadJoke>> GetDadJokesByCategory(string categoryName)
+    {
+        _ = await Task.FromResult(true);
+        var jokesInCategory = JokeData.Jokes
+            .Where(joke => JokeCategories.Any(category => category == joke.JokeCategoryTxt))
+            .ToList();
+        return jokesInCategory;
+    }
 
-[JsonSerializable(typeof(List<DadJoke>))]
-[JsonSerializable(typeof(DadJoke))]
-internal sealed partial class DadJokeContext : JsonSerializerContext {
-
+    public static async Task<List<string>> GetDadJokeCategories()
+    {
+        _ = await Task.FromResult(true);
+        return JokeCategories;
+    }
 }
