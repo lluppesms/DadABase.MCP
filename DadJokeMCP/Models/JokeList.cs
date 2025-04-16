@@ -37,26 +37,28 @@ public class DadJoke
         Attribution = string.Empty;
         ImageTxt = string.Empty;
     }
-    public DadJoke(string jokeTxt, string jokeCategoryTxt)
+    public override string ToString()
     {
-        JokeTxt = jokeTxt;
-        JokeCategoryTxt = jokeCategoryTxt;
-        Attribution = string.Empty;
-        ImageTxt = string.Empty;
-    }
-    public DadJoke(string jokeTxt, string jokeCategoryTxt, string imageTxt)
-    {
-        JokeTxt = jokeTxt;
-        JokeCategoryTxt = jokeCategoryTxt;
-        Attribution = string.Empty;
-        ImageTxt = imageTxt;
-    }
+        var myJokeText = JokeTxt.Length > 0 ? JokeTxt : "No joke here!";
+        if (myJokeText.StartsWith("KK/WT:"))
+        {
+            var myFirstQuestionMark = myJokeText.IndexOf("?");
+            var myQuestion = myJokeText.Substring(6, myFirstQuestionMark - 6).Trim();
+            var myResponse = myJokeText.Substring(myFirstQuestionMark + 1, myJokeText.Length - myFirstQuestionMark - 1).Trim();
+            var myFullText =
+              $"Knock Knock!<br/>" +
+              $"&nbsp;&nbsp;Who's There?<br />" +
+              $"{myQuestion}<br/>" +
+              $"&nbsp;&nbsp;{myQuestion} who?<br/>" +
+              $"{myResponse}";
+            myJokeText = myFullText;
+        }
 
-    public DadJoke(string jokeTxt, string jokeCategoryTxt, string imageTxt, string attribution)
-    {
-        JokeTxt = jokeTxt;
-        JokeCategoryTxt = jokeCategoryTxt;
-        Attribution = attribution;
-        ImageTxt = imageTxt;
+        if (Attribution.Length > 0)
+        {
+            myJokeText += $" - {Attribution}";
+        }
+        
+        return myJokeText;
     }
 }

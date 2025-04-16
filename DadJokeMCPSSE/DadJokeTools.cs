@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Text;
 using System.Text.Json;
 using ModelContextProtocol.Server;
 
@@ -14,18 +15,23 @@ public sealed class DadJokeTools
         this.DadJokeService = DadJokeService;
     }
 
-    [McpServerTool, Description("Get a list of DadJokes.")]
-    public async Task<string> GetDadJokes()
+    [McpServerTool, Description("Get a random Dad Joke")]
+    public async Task<string> GetDadJoke()
     {
         var dadJoke = await DadJokeService.GetDadJoke();
-        return JsonSerializer.Serialize(dadJoke);
+        return dadJoke.ToString();
     }
 
     [McpServerTool, Description("Get a list of Dad Joke by category.")]
     public async Task<string> GetDadJokesByCategory([Description("The name of the Dad Joke Category to get a list of jobs for")] string name)
     {
         var dadJokes = await DadJokeService.GetDadJokesByCategory(name);
-        return JsonSerializer.Serialize(dadJokes);
+        var sb = new StringBuilder();
+        foreach (var joke in dadJokes)
+        {
+            sb.AppendLine(joke.ToString());
+        }
+        return sb.ToString();
     }
 
     [McpServerTool, Description("Get a list of Dad Joke categories.")]

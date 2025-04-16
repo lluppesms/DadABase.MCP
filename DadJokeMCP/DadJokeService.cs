@@ -1,45 +1,71 @@
+using System.Reflection;
 using System.Text.Json;
 
 namespace DadJokeMCP;
 
 public class DadJokeService
 {
-    private static readonly string sourceFileName = "Data/Jokes.json";
-    private static JokeList JokeData = new();
-    private static List<string> JokeCategories = [];
+    private JokeList JokeData = new();
+    private List<string> JokeCategories = [];
 
     public DadJokeService()
     {
         // load up the jokes into memory
-        using (var r = new StreamReader(sourceFileName))
+        var resourceNames = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+        if (resourceNames.Length > 0)
         {
-            var json = r.ReadToEnd();
-            JokeData = JsonSerializer.Deserialize<JokeList>(json) ?? new JokeList();
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceNames[0]))
+                if (stream != null)
+                {
+                    using var r = new StreamReader(stream);
+                    var json = r.ReadToEnd();
+                    JokeData = JsonSerializer.Deserialize<JokeList>(json) ?? new JokeList();
+                }
+
+            // select distinct categories from JokeData
+            JokeCategories = JokeData.Jokes.Select(joke => joke.JokeCategoryTxt).Distinct().Order().ToList();
         }
-
-        // select distinct categories from JokeData
-        JokeCategories = JokeData.Jokes.Select(joke => joke.JokeCategoryTxt).Distinct().Order().ToList();
     }
-
-    public static async Task<DadJoke> GetDadJoke()
+    public async Task<DadJoke> GetDadJoke()
     {
         _ = await Task.FromResult(true);
-        var joke = JokeData.Jokes[Random.Shared.Next(0, JokeData.Jokes.Count)];
-        return joke ?? new DadJoke("No jokes here!");
+        try
+        {
+            var joke = JokeData.Jokes[Random.Shared.Next(0, JokeData.Jokes.Count)];
+            return joke ?? new DadJoke("No jokes here!");
+        }
+        catch (Exception ex)
+        {
+            return new DadJoke($"Why did the dad joke not work? {ex.Message}");
+        }
     }
 
-    public static async Task<List<DadJoke>> GetDadJokesByCategory(string categoryName)
+    public async Task<List<DadJoke>> GetDadJokesByCategory(string categoryName)
     {
         _ = await Task.FromResult(true);
-        var jokesInCategory = JokeData.Jokes
-            .Where(joke => JokeCategories.Any(category => category == joke.JokeCategoryTxt))
-            .ToList();
-        return jokesInCategory;
+        try
+        {
+            var jokesInCategory = JokeData.Jokes
+                .Where(joke => joke.JokeCategoryTxt == categoryName)
+                .ToList();
+            return jokesInCategory;
+        }
+        catch (Exception ex)
+        {
+            return [new DadJoke($"Why did the dad joke not work? {ex.Message}")];
+        }
     }
 
-    public static async Task<List<string>> GetDadJokeCategories()
+    public async Task<List<string>> GetDadJokeCategories()
     {
         _ = await Task.FromResult(true);
-        return JokeCategories;
+        try
+        {
+            return JokeCategories;
+        }
+        catch (Exception ex)
+        {
+            return [$"Why did the dad joke not return a category? {ex.Message}"];
+        }
     }
 }
