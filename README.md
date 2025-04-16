@@ -1,5 +1,7 @@
 # Dad Joke - Model Context Protocol (MCP) Server
 
+> NOTE: This is under development and not yet ready for use. Contact me for more information!
+
 ## Overview
 
 This is a Model Context Protocol (MCP) server implementation built with .NET 9.0. The MCP server provides a communication protocol for facilitating interactions between various components in a model-driven system. This implementation demonstrates how to set up a basic MCP server with custom tools and services.
