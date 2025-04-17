@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "my-dadjoke-server-5d14d5f3": {
+      "type": "stdio",
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "C:\\AI\\mcp\\DadJokeMCP\\DadJokeMCP\\DadJokeMCP.csproj"
+      ]
+    }
+  }
+}
