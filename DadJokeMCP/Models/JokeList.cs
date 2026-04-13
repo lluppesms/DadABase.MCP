@@ -1,12 +1,8 @@
-﻿using System.Text.Json.Serialization;
-
-namespace DadJokeMCP;
+﻿namespace DadJokeMCP;
 
 [JsonSerializable(typeof(List<DadJoke>))]
-internal sealed partial class DadJokeContext : JsonSerializerContext
-{
+internal sealed partial class DadJokeContext : JsonSerializerContext {}
 
-}
 public class JokeList
 {
     public List<DadJoke> Jokes { get; set; }

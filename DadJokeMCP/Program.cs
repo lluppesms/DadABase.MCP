@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
-using DadJokeMCP;
-using Microsoft.Extensions.DependencyInjection;
-
+﻿
 var builder = Host.CreateEmptyApplicationBuilder(settings: null);
 builder.Services
     .AddMcpServer()

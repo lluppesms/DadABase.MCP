@@ -1,5 +1,4 @@
-﻿using DadJokeMCPSSE;
-
+﻿
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddMcpServer()

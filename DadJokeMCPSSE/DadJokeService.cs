@@ -1,7 +1,3 @@
-using System.Reflection;
-using System.Text.Json;
-using DadJokeMCP;
-
 namespace DadJokeMCPSSE;
 
 public class DadJokeService
@@ -16,17 +12,20 @@ public class DadJokeService
         if (resourceNames.Length > 0)
         {
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceNames[0]))
+            {
                 if (stream != null)
                 {
                     using var r = new StreamReader(stream);
                     var json = r.ReadToEnd();
                     JokeData = JsonSerializer.Deserialize<JokeList>(json) ?? new JokeList();
                 }
+            }
 
-            // select distinct categories from JokeData
+            // select distinct categories from Joke Data File
             JokeCategories = JokeData.Jokes.Select(joke => joke.JokeCategoryTxt).Distinct().Order().ToList();
         }
     }
+
     public async Task<DadJoke> GetDadJoke()
     {
         _ = await Task.FromResult(true);
@@ -57,16 +56,15 @@ public class DadJokeService
         }
     }
 
-    public async Task<List<string>> GetDadJokeCategories()
+    public Task<List<string>> GetDadJokeCategories()
     {
-        _ = await Task.FromResult(true);
         try
         {
-            return JokeCategories;
+            return Task.FromResult(JokeCategories);
         }
         catch (Exception ex)
         {
-            return [$"Why did the dad joke not return a category? {ex.Message}"];
+            return Task.FromResult(new List<string> { $"Why did the dad joke not return a category? {ex.Message}" });
         }
     }
 }
