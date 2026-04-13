@@ -8,22 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Data\Jokes.json" />
+    <ProjectReference Include="..\DadJokeMCP.Shared\DadJokeMCP.Shared.csproj" />
   </ItemGroup>
 
-    <ItemGroup>
+  <ItemGroup>
     <PackageReference Include="ModelContextProtocol.AspNetCore" Version="1.2.0" />
-    <PackageReference Include="System.Text.Json" Version="10.0.5" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Data\Jokes.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Data\Jokes.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

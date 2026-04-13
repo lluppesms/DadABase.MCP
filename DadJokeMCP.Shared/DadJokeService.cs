@@ -1,4 +1,4 @@
-namespace DadJokeMCPSSE;
+namespace DadJokeMCP.Shared;
 
 public class DadJokeService
 {
@@ -11,16 +11,29 @@ public class DadJokeService
         var resourceNames = Assembly.GetExecutingAssembly().GetManifestResourceNames();
         if (resourceNames.Length > 0)
         {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceNames[0]))
+            try
             {
-                if (stream != null)
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceNames[0]))
                 {
-                    using var r = new StreamReader(stream);
-                    var json = r.ReadToEnd();
-                    JokeData = JsonSerializer.Deserialize<JokeList>(json) ?? new JokeList();
+                    if (stream != null)
+                    {
+                        using var r = new StreamReader(stream);
+                        var json = r.ReadToEnd();
+                        JokeData = JsonSerializer.Deserialize<JokeList>(json, DadJokeContext.Default.JokeList) ?? new JokeList();
+                    }
                 }
             }
-
+            catch (Exception ex)
+            {
+                JokeData = new JokeList();
+                JokeData.Jokes.Add(new DadJoke()
+                {
+                    JokeCategoryTxt = "Dad",
+                    JokeTxt = "My son just became a father for the first time today... to pass the paternal torch, he asked me where I kept all my dad jokes, so I told him - they are stored in my dadabase."
+                });
+                JokeCategories.Add("Dad");
+                Console.WriteLine($"Error loading jokes: {ex.Message}");
+            }
             // select distinct categories from Joke Data File
             JokeCategories = JokeData.Jokes.Select(joke => joke.JokeCategoryTxt).Distinct().Order().ToList();
         }
