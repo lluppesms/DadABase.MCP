@@ -67,7 +67,7 @@ StdIO project:
             "args": [
                 "run",
                 "--project",
-                "C:\\AI\\mcp\\DadJokeMCP\\DadJokeMCP\\DadJokeMCP.csproj"
+                "C:\\AI\\mcp\\DadJokeMCP\\DadJokeMCPStdIO\\DadJokeMCPStdIO.csproj"
             ]
         }
     }
@@ -100,7 +100,7 @@ Use these examples after building images from the included Dockerfiles.
 Build commands:
 
 ~~~powershell
-docker build -f DadJokeMCP/Dockerfile -t dadjokemcp:local .
+docker build -f DadJokeMCPStdIO/Dockerfile -t dadjokemcp:local .
 docker build -f DadJokeMCPSSE/Dockerfile -t dadjokemcp-sse:local .
 ~~~
 
@@ -213,7 +213,7 @@ Several logging providers are available:
     "args": [
         "run",
         "--project",
-        "C:\\AI\\mcp\\DadJokeMCP\\DadJokeMCP\\DadJokeMCP.csproj"
+        "C:\\AI\\mcp\\DadJokeMCP\\DadJokeMCPStdIO\\DadJokeMCPStdIO.csproj"
     ]
 }
 ~~~
@@ -266,7 +266,7 @@ The SSE implementation uses ASP.NET Core's built-in web server capabilities whil
 
 ## Project Structure
 
-- **/DadJokeMCP**: Main project directory
+- **/DadJokeMCPStdIO**: Main stdio project directory
   - **DadJokeService.cs**: Implementation of the service to fetch Dad Joke data
   - **DadJokeTools.cs**: MCP tools for accessing Dad Joke data
   - **Program.cs**: Entry point that configures and starts the MCP server

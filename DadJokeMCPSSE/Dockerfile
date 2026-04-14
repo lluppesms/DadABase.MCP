@@ -7,7 +7,7 @@ RUN dotnet restore "DadJokeMCPSSE/DadJokeMCPSSE.csproj"
 
 COPY . .
 WORKDIR "/src/DadJokeMCPSSE"
-RUN dotnet publish "DadJokeMCPSSE.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "DadJokeMCPSSE.csproj" -c Release -o /app/publish /p:UseAppHost=false /p:PublishAot=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
