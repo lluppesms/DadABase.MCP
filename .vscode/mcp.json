@@ -1,14 +1,14 @@
 {
   "servers": {
-    "my-dadjoke-server-5d14d5f3": {
-      "type": "stdio",
-      "command": "dotnet",
-      "args": [
-        "run",
-        "--project",
-        "C:\\AI\\mcp\\DadJokeMCP\\DadJokeMCPStdIO\\DadJokeMCPStdIO.csproj"
-      ]
-    },
+    // "my-dadjoke-server-5d14d5f3": {
+    //   "type": "stdio",
+    //   "command": "dotnet",
+    //   "args": [
+    //     "run",
+    //     "--project",
+    //     "C:\\AI\\mcp\\DadJokeMCP\\DadJokeMCPStdIO\\DadJokeMCPStdIO.csproj"
+    //   ]
+    // },
     // "dad-jokes-stdio-docker": {
     //   "type": "stdio",
     //   "command": "docker",
@@ -19,7 +19,7 @@
     //       "dadjokemcp:local"
     //   ]
     // }
-    // "dad-jokes-sse-local": {
+    //"dad-jokes-sse-local": {
     //   "type": "sse",
     //   "url": "http://localhost:3001/mcp",
     //   "command": "dotnet",
@@ -29,9 +29,13 @@
     //       "C:\\AI\\mcp\\DadJokeMCP\\DadJokeMCPSSE\\DadJokeMCPSSE.csproj"
     //   ]
     // },
-    // "dad-jokes-hosted": {
+    // "travel-tracker-local": {
     //   "type": "sse",
-    //   "url": "http://localhost:3001/mcp"
-    // },
+    //   "url": "http://localhost:56632/mcp"
+    // }, 
+    // "dad-jokes": {
+    //   "type": "sse",
+    //   "url": "http://localhost:3001/"
+    // }
   }
 }
