@@ -1,7 +1,9 @@
-# Dad Joke - Model Context Protocol (MCP) Server
+# Create a Dad Joke MCP Server
 
-> NOTE: This is under development and not yet ready for use. Contact me for more information!
+> NOTE: This is a very simple sample of building an MCP server and should not be used as a blueprint for a production app!
 
+> See [MCP Security Summit Workshop](https://azure-samples.github.io/sherpa/) for a full workshop that helps you learn how to build a security MCP server on Azure.
+ 
 ## Overview
 
 This is a Model Context Protocol (MCP) server implementation built with .NET 10.0. The MCP server provides a communication protocol for facilitating interactions between various components in a model-driven system. This implementation demonstrates how to set up a basic MCP server with custom tools and services.
